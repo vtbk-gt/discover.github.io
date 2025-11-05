@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manpower Nexus Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .poster {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .header .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #38f9d7;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            color: #4a5568;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #38f9d7;
+        }
+
+        .feature h3 {
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 40px;
+            color: #38f9d7;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header .tagline {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <a href="../index.html" class="back-link">← Back to Directory</a>
+        
+        <div class="header">
+            <h1>👥 Manpower Nexus</h1>
+            <p class="tagline">Connecting talent with opportunity seamlessly</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>About This Project</h2>
+                <p>
+                    Manpower Nexus is a comprehensive workforce management and talent acquisition platform. 
+                    It streamlines the process of connecting skilled professionals with the right opportunities, 
+                    ensuring optimal resource allocation and career growth.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Key Features</h2>
+                <div class="features">
+                    <div class="feature">
+                        <h3>🎯 Smart Matching</h3>
+                        <p>AI-powered talent matching</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📊 Analytics</h3>
+                        <p>Real-time workforce insights</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🤝 Collaboration</h3>
+                        <p>Seamless team coordination</p>
+                    </div>
+                    <div class="feature">
+                        <h3>⚙️ Automation</h3>
+                        <p>Streamlined workflows</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Technologies Used</h2>
+                <p>
+                    Vue.js, Python, Django, Redis, PostgreSQL, Machine Learning APIs
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Project Goals</h2>
+                <p>
+                    To transform workforce management by leveraging technology to create meaningful connections 
+                    between talent and opportunities, reducing time-to-hire and improving job satisfaction.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
