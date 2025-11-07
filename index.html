@@ -1,29 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Thunderbird Project</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div class="poster">
-            <div class="header">
-                <a href="../index.html" class="back-link">← Back to Directory</a>
-                <h1>PDF SAMPLE</h1>
-                <p class="tagline">Project Documentation</p>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Directory</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📂 CIOO-Labs Project Directory</h1>
+            
+        </header>
 
-            <div class="pdf-container">
-                <iframe 
-                    src="your-document.pdf" 
-                    type="application/pdf"
-                    title="Project Documentation PDF"
-                >
-                    <p>Your browser doesn't support PDF embedding. <a href="your-document.pdf">Download the PDF</a> instead.</p>
-                </iframe>
-            </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search projects...">
         </div>
-    </body>
-</html>
 
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Add your project cards here -->
+
+            <a href="./cf360/index.html" class="project-card" data-name="cf360">
+                <div class="project-icon">🔄</div>
+                <h2 class="project-title">CF360</h2>
+                <p class="project-description">Comprehensive 360-degree platform</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./bvat/index.html" class="project-card" data-name="equip">
+                <div class="project-icon">💻</div>
+                <h2 class="project-title">Equip</h2>
+                <p class="project-description">Faster get yourself ready to embark on a wonderful journey</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./manpower-nexus/index.html" class="project-card" data-name="manpower-nexus">
+                <div class="project-icon">👥</div>
+                <h2 class="project-title">Manpower Nexus</h2>
+                <p class="project-description">Connecting talent with opportunity seamlessly</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./syncbridge/index.html" class="project-card" data-name="syncbridge">
+                <div class="project-icon">🌉</div>
+                <h2 class="project-title">Syncbridge</h2>
+                <p class="project-description">Bridging systems for seamless data synchronization</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./glean/index.html" class="project-card" data-name="glean">
+                <div class="project-icon">✨</div>
+                <h2 class="project-title">Glean</h2>
+                <p class="project-description">Intelligent insights from your data, instantly</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./thunderbird/index.html" class="project-card" data-name="thunderbird">
+                <div class="project-icon">⚡</div>
+                <h2 class="project-title">Thunderbird</h2>
+                <p class="project-description">Powerful and innovative project solution</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./bvat/index.html" class="project-card" data-name="bvat">
+                <div class="project-icon">📝</div>
+                <h2 class="project-title">Billing Validation Analytics Tool</h2>
+                <p class="project-description">Intelligent insights from your data, instantly</p>
+                <span class="arrow">→</span>
+            </a>
+
+            <a href="./pdfsample/index.html" class="project-card" data-name="pdfsample">
+                <div class="project-icon">📝</div>
+                <h2 class="project-title">PDF Sample</h2>
+                <p class="project-description">Sample of PDF File</p>
+                <span class="arrow">→</span>
+            </a>
+    
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <h2>No projects yet</h2>
+            <p>Create subfolders within the discover directory and add project cards above</p>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const projectsGrid = document.getElementById('projectsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        // Show/hide empty state
+        if (projectCards.length === 0) {
+            emptyState.style.display = 'block';
+        } else {
+            emptyState.style.display = 'none';
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            let visibleCount = 0;
+
+            projectCards.forEach(card => {
+                const projectName = card.dataset.name.toLowerCase();
+                const projectTitle = card.querySelector('.project-title').textContent.toLowerCase();
+
+                if (projectName.includes(searchTerm) || 
+                    projectTitle.includes(searchTerm) ){
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show "no results" if searching and nothing found
+            if (searchTerm && visibleCount === 0) {
+                emptyState.querySelector('h2').textContent = 'No results found';
+                emptyState.querySelector('p').textContent = 'Try a different search term';
+                emptyState.style.display = 'block';
+            } else if (projectCards.length === 0) {
+                emptyState.querySelector('h2').textContent = 'No projects yet';
+                emptyState.querySelector('p').textContent = 'Create subfolders within the discover directory and add project cards above';
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+            }
+        });
+
+        // Add animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            projectCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
