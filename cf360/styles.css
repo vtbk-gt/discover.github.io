@@ -101,4 +101,14 @@ body {
     .back-link {
         font-size: 0.9rem;
     }
+
+    /* Better mobile PDF handling */
+    .pdf-container {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .pdf-container iframe {
+        min-height: 100%;
+        overflow: auto;
+    }
 }
