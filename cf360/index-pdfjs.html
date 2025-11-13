@@ -71,7 +71,6 @@
         <div class="header">
             <a href="../index.html" class="back-link">← Back to Directory</a>
             <h1>🔄 CF360</h1>
-            <p class="tagline">Comprehensive 360-degree platform</p>
         </div>
 
         <div class="pdf-container">
@@ -98,18 +97,28 @@
         let pageNum = 1;
         let pageIsRendering = false;
         let pageNumIsPending = null;
-        let scale = 1.0; // Start at 100% scale for mobile
+        let scale = 1.0;
         
         const canvas = document.getElementById('pdf-canvas');
         const ctx = canvas.getContext('2d');
         const container = document.getElementById('pdf-canvas-container');
 
+        // Touch/Pinch zoom variables
+        let initialDistance = 0;
+        let initialScale = 1;
+
         // Calculate initial scale to fit width on mobile
         function getInitialScale() {
             const containerWidth = container.clientWidth;
-            // Estimate PDF page width (typically 595pt for A4)
             const estimatedPDFWidth = 595;
             return Math.min(containerWidth / estimatedPDFWidth, 1.5);
+        }
+
+        // Get distance between two touch points
+        function getDistance(touch1, touch2) {
+            const dx = touch2.clientX - touch1.clientX;
+            const dy = touch2.clientY - touch1.clientY;
+            return Math.sqrt(dx * dx + dy * dy);
         }
 
         // Render the page
@@ -117,7 +126,6 @@
             pageIsRendering = true;
             
             pdfDoc.getPage(num).then(page => {
-                // Use scale to fit mobile screen width
                 const viewport = page.getViewport({ scale: scale });
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
@@ -139,7 +147,6 @@
                 });
             });
 
-            // Update page number display
             document.getElementById('page-num').textContent = num;
         }
 
@@ -151,6 +158,41 @@
                 renderPage(num);
             }
         }
+
+        // Touch event handlers for pinch-to-zoom
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                initialDistance = getDistance(e.touches[0], e.touches[1]);
+                initialScale = scale;
+            }
+        }, { passive: false });
+
+        container.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                const currentDistance = getDistance(e.touches[0], e.touches[1]);
+                const scaleChange = currentDistance / initialDistance;
+                scale = Math.max(0.5, Math.min(5, initialScale * scaleChange));
+            }
+        }, { passive: false });
+
+        container.addEventListener('touchend', (e) => {
+            if (e.touches.length < 2 && initialDistance > 0) {
+                initialDistance = 0;
+                queueRenderPage(pageNum);
+            }
+        });
+
+        // Mouse wheel zoom for desktop
+        container.addEventListener('wheel', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                scale = Math.max(0.5, Math.min(5, scale + delta));
+                queueRenderPage(pageNum);
+            }
+        }, { passive: false });
 
         // Previous page
         document.getElementById('prev-page').addEventListener('click', () => {
@@ -168,13 +210,12 @@
 
         // Zoom controls
         document.getElementById('zoom-in').addEventListener('click', () => {
-            scale += 0.25;
+            scale = Math.min(5, scale + 0.25);
             queueRenderPage(pageNum);
         });
 
         document.getElementById('zoom-out').addEventListener('click', () => {
-            if (scale <= 0.5) return;
-            scale -= 0.25;
+            scale = Math.max(0.5, scale - 0.25);
             queueRenderPage(pageNum);
         });
 
@@ -196,9 +237,16 @@
         });
 
         // Update scale on window resize
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            scale = getInitialScale();
-            queueRenderPage(pageNum);
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const newInitialScale = getInitialScale();
+                if (scale === getInitialScale()) {
+                    scale = newInitialScale;
+                }
+                queueRenderPage(pageNum);
+            }, 250);
         });
     </script>
 </body>
